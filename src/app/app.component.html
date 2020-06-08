@@ -4,12 +4,17 @@
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header color="primary-light">
-            <ion-thumbnail item-left>
+            <ion-thumbnail >
               <img src="assets/images/logo.png" />
             </ion-thumbnail>
             <h3>Ristorante Con Fusion</h3>
           </ion-list-header>
-
+          <ion-menu-toggle auto-hide="false">
+            <ion-item (click) = "loginModal()"  lines="none" detail="false" [class.selected]="selectedIndex == -1">
+              <ion-icon slot="start" [ios]=" log-in-outline" [md]="'log-in' + '-sharp'"></ion-icon>
+              <ion-label>Login</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>

@@ -6,6 +6,7 @@ import { Comment } from '../../shared/comment';
 import { CommentPage } from '../comment/comment.page'
 import { DishService } from '../../services/dish.service';
 import { FavoriteService } from '../../services/favorite.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-dishdetail',
@@ -26,6 +27,7 @@ export class DishdetailPage implements OnInit {
     private modalCtrl: ModalController,
     private dishservice: DishService,
     private favoriteservice : FavoriteService,
+    private socialSharing: SocialSharing,
     @Inject('BaseURL') private BaseURL) { 
     this.route.queryParams.subscribe(params => {
       if(this.router.getCurrentNavigation().extras.state){
@@ -57,12 +59,12 @@ export class DishdetailPage implements OnInit {
     const actionSheet = await this.actionCtrl.create({
       
       buttons: [
-        { text: 'Add To Favorites', icon : 'heart', 
+        { text: 'Add To Favorites', icon : 'heart-outline', 
         handler : () =>{
           console.log('add to favourites');
           this.addToFavorites();
         } },
-        { text: 'Add a Comment', icon : 'chatbubble-ellipses',
+        { text: 'Add Comment', icon : 'chatbubble-ellipses-outline',
         handler : async () => {
           const modal = await this.modalCtrl.create({
             component: CommentPage,
@@ -84,6 +86,24 @@ export class DishdetailPage implements OnInit {
           await modal.present();
 
         }
+        },
+        { 
+          text: 'Share',
+          icon: 'share-social-outline',
+          handler: () => {
+            this.socialSharing.share(this.dish.name + ' -- ' + this.dish.description, this.BaseURL + this.dish.image, '')
+              .then(() => console.log('Posted successfully to Facebook'))
+              .catch((e) => console.log('Failed to post to Facebook'));
+          }
+        },
+        { 
+          text: 'Share via WhatsApp',
+          icon: 'logo-whatsapp',
+          handler: () => {
+            this.socialSharing.shareViaWhatsApp(this.dish.name + ' -- ' + this.dish.description, this.BaseURL + this.dish.image, '')
+              .then(() => console.log('Posted successfully to WhatsApp'))
+              .catch((e) => console.log('Failed to post to WhatsApp'));
+          }
         },
         { text: 'Cancel', role: 'cancel' }
       ]

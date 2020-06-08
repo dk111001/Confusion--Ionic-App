@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Dish } from '../../shared/dish';
 import { DishService } from '../../services/dish.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,9 @@ export class MenuPage implements OnInit {
 
   constructor(private dishService: DishService,
     private router : Router,
-    @Inject('BaseURL') private BaseURL) { }
+    private platform : Platform,
+    @Inject('BaseURL') private BaseURL) {
+     }
 
   ngOnInit() {
     this.dishService.getDishes()

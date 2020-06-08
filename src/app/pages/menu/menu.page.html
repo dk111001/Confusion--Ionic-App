@@ -10,7 +10,7 @@
 <ion-content >
   <div *ngIf="dishes">
     <ion-grid>
-      <ion-row>
+      <ion-row class="ion-align-items-center">
         <ion-col size-xs = "12" size-sm = "4" *ngFor="let dish of dishes">
           <ion-card (click)="dishSelected(dish)"  >
             <img class = "img-size"  src="{{BaseURL + dish.image}}" />

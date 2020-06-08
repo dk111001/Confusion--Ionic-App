@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router, NavigationExtras } from '@angular/router';
+import { ActionSheetController, ModalController } from '@ionic/angular';
+
+
+import { LoginPage } from './pages/login/login.page'
 
 @Component({
   selector: 'app-root',
@@ -10,6 +15,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild(IonRouterOutlet, {static:false})
+  routerOutlet : IonRouterOutlet;
+
   public selectedIndex = 0;
   public appPages = [
     {
@@ -38,7 +47,9 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private modalCtrl: ModalController,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -53,8 +64,32 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     const path = window.location.pathname.split('folder/')[1];
+    console.log(path);
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+  }
+  async loginModal(){
+    this.selectedIndex = -1;
+    const modal = await this.modalCtrl.create({
+      component: LoginPage,
+    });
+    modal.onDidDismiss()
+     .then((data) => {
+       this.selectedIndex = 0;
+    //     this.newComment = data['data']; 
+    //     console.log('Dish-detail '); // Here's your selected user!
+    //     console.log(data);
+    //     if(this.newComment){
+    //       this.dish.comments.push(this.newComment);
+    //       this.dishservice.putDish(this.dish)
+    //       .subscribe(dish => {
+    //       this.dish = dish;
+    //           },
+    //       errmess => { this.dish = null; this.errMess = <any>errmess; });
+    //     }
+    });
+    await modal.present();
+    
   }
 }
