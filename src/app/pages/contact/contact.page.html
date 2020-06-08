@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Contact Us</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-card>
+      <ion-card-header>
+        Location Information
+      </ion-card-header>
+      <ion-card-content>
+        <address>
+          121, Clear Water Bay Road<br>
+          Clear Water Bay, Kowloon<br>
+          HONG KONG<br>
+          <ion-icon name="call"></ion-icon>: +852 1234 5678<br>
+          <ion-icon name="print"></ion-icon>: +852 8765 4321<br>
+          <ion-icon name="mail"></ion-icon>: confusion@food.net<br>
+        </address>
+      </ion-card-content>
+        <ion-row>
+          <ion-col>
+            <ion-button icon-left fill = "clear">
+              <ion-icon name="call"></ion-icon>
+              <div>Call</div>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button icon-left fill = "clear" (click) = "sendEmail()">
+              <ion-icon name="mail"></ion-icon>
+              <div>Email</div>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+    </ion-card>
+    </div>
+</ion-content>

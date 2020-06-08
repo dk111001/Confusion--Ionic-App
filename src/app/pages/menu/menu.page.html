@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Menu</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div *ngIf="dishes">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs = "12" size-sm = "4" *ngFor="let dish of dishes">
+          <ion-card (click)="dishSelected(dish)"  >
+            <img class = "img-size"  src="{{BaseURL + dish.image}}" />
+            <ion-card-content>
+              <ion-card-title>
+                {{dish.name | uppercase}}
+              </ion-card-title>
+              <p>
+                {{dish.description}}
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>  
+  </div>
+  <div [hidden]="dishes || errMess">
+    <ion-spinner></ion-spinner>
+    <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
+  </div>
+</ion-content>

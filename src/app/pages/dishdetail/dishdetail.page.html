@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot = "start">
+      <ion-back-button text="" icon="arrow-back" defaultHref="menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dish Details</ion-title>
+    <ion-buttons slot = "end">
+      <ion-button (click) = "handleButtonClick()"><ion-icon name = "ellipsis-vertical"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="dish">
+    <img class="img-size" src="{{BaseURL + dish.image}}"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{dish.name | uppercase}}
+      </ion-card-title>
+      <p>
+        {{dish.description}}
+      </p>
+    </ion-card-content>
+    <ion-row>
+      <ion-col>
+        <ion-button fill="clear" icon-left small>
+          <ion-icon slot="start" name="star"></ion-icon>
+          <div>{{ avgstars }} Stars</div>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill="clear" icon-left small>
+          <ion-icon slot = "start" name="chatbubble"></ion-icon>
+          <ion-text>{{ numcomments }} Comments</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <div [hidden]="dish || errMess">
+    <ion-spinner></ion-spinner>
+    <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
+  </div>
+  
+  <ion-list *ngIf="dish">
+    <ion-list-header>
+      Comments
+    </ion-list-header>
+    <ion-item *ngFor="let comment of dish.comments" text-wrap>
+      <ion-label>
+      <h4> {{comment.comment}} </h4>
+      <p> {{comment.rating}} Stars</p>
+      <p>
+        <span> -- {{comment.author}} {{comment.date | date }} </span>
+      </p>
+    </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]="favorite">
+    <ion-fab-button  (click)="addToFavorites()">
+      <ion-icon name="heart-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="favorite">
+    <ion-fab-button (click)="removeFromFavorites()">
+      <ion-icon name="heart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
