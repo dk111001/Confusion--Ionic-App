@@ -12,7 +12,8 @@ export class AboutPage implements OnInit {
   leaders: Leader[];
   errMess : string;
   constructor(private leaderService: LeaderService,
-    @Inject('BaseURL') private BaseURL) { }
+    @Inject('BaseURL') private BaseURL) { 
+    }
 
   ngOnInit() {
     this.leaderService.getLeaders().subscribe((leaders)=> this.leaders = leaders,errmes => this.errMess = <any>errmes);

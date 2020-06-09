@@ -24,7 +24,7 @@
         </ion-card>
       
         <div [hidden]="dish || dishErrMess">
-          <ion-spinner></ion-spinner>
+          <ion-spinner name = "crescent"></ion-spinner>
           <h4>Loading . . . Please Wait</h4>
         </div>
         <div *ngIf="dishErrMess">
@@ -45,7 +45,7 @@
           </ion-card-content>
         </ion-card>
         <div [hidden]="promotion || promoErrMess">
-          <ion-spinner></ion-spinner>
+          <ion-spinner name = "crescent"></ion-spinner>
           <h4>Loading . . . Please Wait</h4>
         </div>
         <div *ngIf="promoErrMess">
@@ -69,7 +69,7 @@
           </ion-card-content>
         </ion-card>
         <div [hidden]="leader || leaderErrMess">
-          <ion-spinner></ion-spinner>
+          <ion-spinner name = "crescent"></ion-spinner>
           <h4>Loading . . . Please Wait</h4>
         </div>
         <div *ngIf="leaderErrMess">

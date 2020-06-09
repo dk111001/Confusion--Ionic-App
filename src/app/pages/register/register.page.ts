@@ -15,9 +15,8 @@ import { User } from '../../shared/user';
 export class RegisterPage implements OnInit {
 
   registerForm: FormGroup;
+  imageSpinner : boolean = true;
   image: string = 'assets/images/logo.png';
-  image2: string = 'assets/images/logo2.png';
-
   user : User;
   constructor(private modalCtrl : ModalController,
     private formBuilder: FormBuilder,
@@ -48,11 +47,12 @@ export class RegisterPage implements OnInit {
     this.dismiss();
   }
 
-  getPicture() {
+  getPicture(sourceType, id:number) {
     const options: CameraOptions = {
       quality: 100,
-      targetHeight: 300,
-      targetWidth: 300,
+      targetHeight: 400,
+      targetWidth: 500,
+      sourceType : sourceType,
       correctOrientation: true,  //properly oriented with application
       allowEdit: true,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -61,16 +61,30 @@ export class RegisterPage implements OnInit {
     };
 
     this.camera.getPicture(options).then((imageData) => {
-
-      //this.image = this.image2;
+      this.imageSpinner = false;
+      if(id===1){
+        imageData = imageData.substring(0,imageData.lastIndexOf('?'));
+      }
       console.log(imageData);
       let filename = imageData.substring(imageData.lastIndexOf('/')+1);
       let path =  imageData.substring(0,imageData.lastIndexOf('/')+1);
          //then use the method reasDataURL  btw. var_picture is ur image variable
-      this.file.readAsDataURL(path, filename).then(res=> this.image = res  );
+      this.file.readAsDataURL(path, filename).then(res=> {
+        this.image = res;
+        this.imageSpinner = true;
+      });
     }, (err) => {
         console.log('Error obtaining picture')
     });
+  }
+
+  getImage(id :number){
+    if(id===0){
+      this.getPicture(this.camera.PictureSourceType.CAMERA,id);
+    }
+    else{
+      this.getPicture(this.camera.PictureSourceType.PHOTOLIBRARY,id)
+    }
   }
 
 }

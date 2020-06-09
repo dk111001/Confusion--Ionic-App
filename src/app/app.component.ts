@@ -12,6 +12,7 @@ import { Network } from '@ionic-native/network/ngx';
 
 import { LoginPage } from './pages/login/login.page'
 import { LoadingService } from './services/loading.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,11 +23,10 @@ export class AppComponent implements OnInit {
 
   @ViewChild(IonRouterOutlet, {static:false})
   routerOutlet : IonRouterOutlet;
-  public selectedIndex = 0;
   public appPages = [
     {
       title: 'Home',
-      url: '',
+      url: '/home',
       icon: 'home'
     },
     {
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
       icon: 'list'
     }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public mapIndex;
 
   constructor(
     private platform: Platform,
@@ -57,6 +57,10 @@ export class AppComponent implements OnInit {
     private network: Network,
     private loading : LoadingService
   ) {
+    this.mapIndex = new Map<string,number>();
+    this.mapIndex.set('/home',0); this.mapIndex.set('/aboutus',1); this.mapIndex.set('/contactus',2); this.mapIndex.set('/menu',3);
+    console.log('App compo');
+    console.log(this.router.url);
     this.initializeApp();
   }
 
@@ -95,20 +99,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
+    const path = window.location.pathname.split('/')[1];
+    console.log('gg')
     console.log(path);
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
+    
   }
   async loginModal(){
-    this.selectedIndex = -1;
     const modal = await this.modalCtrl.create({
       component: LoginPage,
     });
     modal.onDidDismiss()
      .then((data) => {
-       this.selectedIndex = 0;
+      console.log('dismiss login app');
+      console.log(this.router.url);
     });
     await modal.present();
     

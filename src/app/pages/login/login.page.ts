@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
 
   dismiss(){
     console.log('dismiss login');
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(true);
 
   }
   onSubmit() {
@@ -59,7 +59,7 @@ export class LoginPage implements OnInit {
       this.storage.set('user', this.user)
     else
       this.storage.remove('user');
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(true);
   }
   async openRegister(){
     const modal = await this.modalCtrl.create({
