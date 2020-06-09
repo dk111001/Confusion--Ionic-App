@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 
 
 import { User } from '../../shared/user';
+import { RegisterPage } from '../register/register.page'
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,9 @@ export class LoginPage implements OnInit {
   }
 
   dismiss(){
+    console.log('dismiss login');
     this.modalCtrl.dismiss();
+
   }
   onSubmit() {
     console.log(this.loginForm.value, this.user);
@@ -57,6 +60,25 @@ export class LoginPage implements OnInit {
     else
       this.storage.remove('user');
     this.modalCtrl.dismiss();
+  }
+  async openRegister(){
+    const modal = await this.modalCtrl.create({
+      component: RegisterPage,
+      
+    });
+    await modal.present();
+
+    modal.onDidDismiss()
+     .then((data) => {
+       if(data['data']){
+       console.log('data-recieved login');
+       this.loginForm
+            .patchValue({
+              'username': data['data'].username, 
+              'password': data['data'].password 
+            });
+        }
+    });
   }
 
 }

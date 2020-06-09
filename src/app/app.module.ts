@@ -13,6 +13,9 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Camera} from '@ionic-native/camera/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { File } from '@ionic-native/file/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +26,7 @@ import { LeaderService } from './services/leader.service';
 import { PromotionService } from './services/promotion.service';
 import { ProcessHttpmsgService } from './services/process-httpmsg.service';
 import { FavoriteService } from './services/favorite.service';
+import { LoadingService } from './services/loading.service';
 
 
 //shared
@@ -48,11 +52,15 @@ import { baseURL } from './shared/baseurl';
     EmailComposer,
     SocialSharing,
     Camera,
+    File,
+    CallNumber,
+    Network,
     DishService,
     PromotionService,
     LeaderService,
     ProcessHttpmsgService,
     FavoriteService,
+    LoadingService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BaseURL', useValue: baseURL }
   ],

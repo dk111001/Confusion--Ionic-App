@@ -4,10 +4,14 @@ import { Platform, IonRouterOutlet } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router, NavigationExtras } from '@angular/router';
-import { ActionSheetController, ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+
+
+import { Network } from '@ionic-native/network/ngx';
 
 
 import { LoginPage } from './pages/login/login.page'
+import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +22,6 @@ export class AppComponent implements OnInit {
 
   @ViewChild(IonRouterOutlet, {static:false})
   routerOutlet : IonRouterOutlet;
-
   public selectedIndex = 0;
   public appPages = [
     {
@@ -49,7 +52,10 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
-    private router: Router
+    private loadingCtrl : LoadingController,
+    private router: Router,
+    private network: Network,
+    private loading : LoadingService
   ) {
     this.initializeApp();
   }
@@ -59,6 +65,32 @@ export class AppComponent implements OnInit {
       this.statusBar.backgroundColorByName('white');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      
+
+      this.network.onDisconnect().subscribe(() => {
+        console.log('network was disconnected :-(');
+        this.router.navigate(['/network-error']);
+
+      
+
+      });
+      
+      // stop disconnect watch
+      //disconnectSubscription.unsubscribe();
+      
+      
+      // watch network for a connection
+      this.network.onConnect().subscribe(() => {
+        this.router.navigate(['']);
+        // We just got a connection but we need to wait briefly
+         // before we determine the connection type. Might need to wait.
+        // prior to doing any api requests as well.
+        //this.loadingCtrl.dismiss();
+        
+      });
+      //connectSubscription.unsubscribe();
+      
+      
     });
   }
 
@@ -77,17 +109,6 @@ export class AppComponent implements OnInit {
     modal.onDidDismiss()
      .then((data) => {
        this.selectedIndex = 0;
-    //     this.newComment = data['data']; 
-    //     console.log('Dish-detail '); // Here's your selected user!
-    //     console.log(data);
-    //     if(this.newComment){
-    //       this.dish.comments.push(this.newComment);
-    //       this.dishservice.putDish(this.dish)
-    //       .subscribe(dish => {
-    //       this.dish = dish;
-    //           },
-    //       errmess => { this.dish = null; this.errMess = <any>errmess; });
-    //     }
     });
     await modal.present();
     
